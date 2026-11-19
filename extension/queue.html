@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Stream Grabber</title>
+<style>
+  *{box-sizing:border-box}
+  body{margin:0;background:#16161a;color:#eee;font:14px system-ui,sans-serif;overflow-x:hidden}
+  header{position:sticky;top:0;z-index:2;display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:12px 20px;background:#1f1f25;border-bottom:1px solid #2e2e36}
+  header .sp{flex:1}
+  button{background:#0ea5e9;color:#fff;border:0;border-radius:6px;padding:7px 12px;cursor:pointer;font:inherit}
+  button.sec{background:#3a3a44}
+  #note{padding:10px 20px;color:#fbbf24}
+  #sum{padding:8px 20px;color:#9a9aa6;font-size:13px}
+  main{padding:8px 20px 40px}
+  .grp{margin-bottom:26px}
+  .grp h2{font-size:17px;margin:0 0 4px}
+  .grp h2 small{color:#8a8a98;font-weight:400;margin-left:6px}
+  /* N episodes per row (Settings), rows are created automatically; the tile size is computed in JS so that nothing overflows */
+  .grid{display:grid;gap:8px;justify-content:start;margin-top:10px}
+  .tile{position:relative;aspect-ratio:16/9;background:#000;border-radius:8px;overflow:hidden;cursor:pointer;outline:2px solid transparent;outline-offset:-2px;font-size:clamp(9px,calc(var(--tile,80px)*.2),18px)}
+  .tile img{width:100%;height:100%;object-fit:cover;display:block;opacity:.85}
+  .tile .num{position:absolute;left:3px;top:3px;background:rgba(0,0,0,.72);color:#fff;font-weight:700;padding:0 .35em;border-radius:5px;line-height:1.35}
+  .tile .ico{position:absolute;right:3px;top:3px;line-height:1.2}
+  .tile .bar{position:absolute;left:0;bottom:0;height:4px;width:var(--p,0%);background:#0ea5e9}
+  .tile.queued{filter:grayscale(.7)}
+  .tile.running{outline-color:#0ea5e9}
+  .tile.done{outline-color:#22c55e}
+  .tile.error{outline-color:#ef4444}
+  .tile.canceled{opacity:.4}
+  .tile.sel{outline-color:#fff}
+  .detail{display:flex;gap:14px;background:#22222a;border-radius:10px;padding:10px;margin-top:12px;align-items:flex-start;flex-wrap:wrap}
+  .detail .th{width:160px;aspect-ratio:16/9;object-fit:cover;background:#000;border-radius:6px;flex:none}
+  .mid{flex:1;min-width:220px}
+  .t{font-weight:600;margin-bottom:2px;word-break:break-word}
+  .chip{display:inline-block;background:#33414f;color:#bae6fd;border-radius:10px;padding:0 7px;font-size:11px;margin-left:6px;font-weight:400}
+  .epedit{width:48px;background:#34343c;color:#eee;border:1px solid #44444e;border-radius:5px;padding:2px 5px;font:inherit;text-align:center}
+  .s{color:#a5a5b2;font-size:12.5px;margin:3px 0 6px;word-break:break-word}
+  .s.err{color:#f87171}.s.ok{color:#4ade80}
+  progress{width:100%;height:8px}
+  .act{display:flex;flex-direction:column;gap:6px}
+  .empty{color:#888;text-align:center;padding:40px}
+</style></head>
+<body>
+<header>
+  <div><span data-i18n="saveFolder"></span> <b id="rootname"></b></div>
+  <button id="pick" data-i18n="pickFolder"></button>
+  <button id="grant" data-i18n="grantAccess" hidden></button>
+  <span class="sp"></span>
+  <button id="cancelAll" class="sec" data-i18n="cancelAll"></button>
+  <button id="clearDone" class="sec" data-i18n="clearDone"></button>
+  <button id="settings" class="sec" data-i18n-title="settings">⚙️</button>
+</header>
+<div id="note"></div>
+<div id="sum"></div>
+<main id="list"></main>
+<script src="lib.js"></script>
+<script src="i18n.js"></script>
+<script src="fs.js"></script>
+<script src="queue.js"></script>
+</body></html>
