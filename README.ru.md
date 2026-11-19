@@ -50,6 +50,18 @@ Kodik подписывает и запутывает запросы потоко
 - Номера серий со страницы определяются эвристикой — их всегда можно поправить.
 - Вкладка очереди должна оставаться открытой (она выполняет загрузку); после перезапуска браузера Chrome один раз просит подтвердить доступ к папке.
 
+## AI-Assisted Development
+
+This project was developed with the assistance of AI tools, including:
+
+- Anthropic Claude
+- OpenAI ChatGPT
+- Other AI-powered development tools
+
+AI was used for code generation, debugging, optimization, research, and feature development.
+
+All generated code and suggestions were reviewed, tested, and integrated into the project by the maintainer.
+
 ## Лицензия
 
 MIT — см. [LICENSE](LICENSE). Используйте только для контента, который вам разрешено сохранять. Политика конфиденциальности: [PRIVACY.md](PRIVACY.md).
