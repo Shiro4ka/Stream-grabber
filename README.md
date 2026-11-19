@@ -70,6 +70,18 @@ See [PRIVACY.md](PRIVACY.md). Use the extension only for content you have the ri
 No build step — plain JavaScript (Manifest V3). Edit files in `extension/` and press *Reload* on `chrome://extensions`.
 Translations live in `extension/i18n.js`; manifest strings in `extension/_locales/`.
 
+## AI-Assisted Development
+
+This project was developed with the assistance of AI tools, including:
+
+- Anthropic Claude
+- OpenAI ChatGPT
+- Other AI-powered development tools
+
+AI was used for code generation, debugging, optimization, research, and feature development.
+
+All generated code and suggestions were reviewed, tested, and integrated into the project by the maintainer.
+
 ## License
 
 MIT — see [LICENSE](LICENSE).
