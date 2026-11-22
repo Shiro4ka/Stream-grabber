@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Stream Grabber</title>
+<style>
+  *{box-sizing:border-box}
+  [hidden]{display:none!important}
+  body{margin:0;background:#16161a;color:#eee;font:14px/1.45 system-ui,sans-serif}
+  main{max-width:760px;margin:0 auto;padding:28px 20px 60px}
+  h1{font-size:22px;margin:0 0 4px}
+  .lead{color:#9a9aa6;margin:0 0 22px}
+  section{background:#1f1f25;border:1px solid #2e2e36;border-radius:12px;padding:16px 18px;margin-bottom:16px}
+  h2{font-size:15px;margin:0 0 12px;color:#7dd3fc}
+  .f{display:flex;align-items:center;gap:12px;margin:10px 0;flex-wrap:wrap}
+  .f > label:first-child,.f > .lbl{flex:0 0 220px}
+  .hint{color:#8a8a98;font-size:12px;margin-top:2px}
+  input[type=text],input[type=number],select,textarea{background:#2a2a33;color:#eee;border:1px solid #44444e;border-radius:6px;padding:6px 8px;font:inherit}
+  input[type=text]{flex:1;min-width:200px}
+  input[type=number]{width:90px}
+  textarea{width:100%;min-height:110px;font:12.5px/1.4 ui-monospace,Consolas,monospace}
+  button{background:#0ea5e9;color:#fff;border:0;border-radius:6px;padding:7px 12px;cursor:pointer;font:inherit}
+  button.sec{background:#3a3a44}
+  button.danger{background:#7f1d1d}
+  .path{font-weight:600}
+  .ok{color:#4ade80}.warn{color:#fbbf24}
+  code{background:#2a2a33;padding:1px 5px;border-radius:4px}
+  #toast{position:fixed;right:18px;bottom:18px;background:#14532d;color:#fff;padding:8px 14px;border-radius:8px;opacity:0;transition:opacity .2s;pointer-events:none}
+  #toast.show{opacity:1}
+  a{color:#7dd3fc}
+</style></head>
+<body><main>
+  <h1>Stream Grabber</h1>
+  <p class="lead" data-i18n="optLead"></p>
+
+  <section>
+    <h2 data-i18n="secGeneral"></h2>
+    <div class="f"><label class="lbl" for="lang" data-i18n="optLang"></label>
+      <select id="lang">
+        <option value="auto" data-i18n="langAuto"></option>
+        <option value="ru">Русский</option>
+        <option value="en">English</option>
+      </select></div>
+    <div class="f"><label class="lbl" for="enabled" data-i18n="optDetect"></label>
+      <input type="checkbox" id="enabled">
+      <button id="hotkey" class="sec" data-i18n="optHotkey"></button></div>
+    <div class="hint" data-i18n="optDetectHint"></div>
+  </section>
+
+  <section>
+    <h2 data-i18n="secFolder"></h2>
+    <div class="f"><span class="lbl" data-i18n="optFolder"></span>
+      <span class="path" id="rootname"></span>
+      <button id="pick" data-i18n="pickFolder"></button>
+      <button id="grant" class="sec" data-i18n="grantAccess" hidden></button></div>
+    <div class="hint" id="folderState"></div>
+    <div class="f"><label class="lbl" for="format" data-i18n="optFormat"></label>
+      <select id="format"><option value="mp4">MP4</option><option value="ts">TS</option></select></div>
+    <div class="hint" data-i18n="optFormatHint"></div>
+    <div class="f"><label class="lbl" for="subfolder" data-i18n="optSubfolder"></label><input type="checkbox" id="subfolder"></div>
+    <div class="f"><label class="lbl" for="tpl" data-i18n="optTemplate"></label><input type="text" id="tpl" spellcheck="false"></div>
+    <div class="hint"><span data-i18n="optTemplateHint"></span> <code id="preview"></code></div>
+    <div class="f"><label class="lbl" for="bat" data-i18n="optBat"></label><input type="checkbox" id="bat"></div>
+    <div class="hint" data-i18n="optBatHint"></div>
+  </section>
+
+  <section>
+    <h2 data-i18n="secDownload"></h2>
+    <div class="f"><label class="lbl" for="conc" data-i18n="optConc"></label>
+      <input type="range" id="conc" min="1" max="16"><b id="concv"></b></div>
+    <div class="f"><label class="lbl" for="retries" data-i18n="optRetries"></label><input type="number" id="retries" min="0" max="10"></div>
+    <div class="f"><label class="lbl" for="perRow" data-i18n="optPerRow"></label><input type="number" id="perRow" min="1" max="200"></div>
+    <div class="hint" data-i18n="optPerRowHint"></div>
+  </section>
+
+  <section>
+    <h2 data-i18n="secDetection"></h2>
+    <div class="f"><label class="lbl" for="shortSec" data-i18n="optShort"></label><input type="number" id="shortSec" min="0" max="600"></div>
+    <div class="hint" data-i18n="optShortHint"></div>
+    <div class="f"><label class="lbl" for="maxHistory" data-i18n="optMaxHistory"></label><input type="number" id="maxHistory" min="50" max="5000"></div>
+    <div class="hint" data-i18n="optMaxHistoryHint"></div>
+    <div class="f"><span class="lbl" data-i18n="optIgnore"></span></div>
+    <textarea id="ignore" spellcheck="false"></textarea>
+    <div class="hint" data-i18n="optIgnoreHint"></div>
+  </section>
+
+  <section>
+    <h2 data-i18n="secData"></h2>
+    <div class="f">
+      <button id="clearJobs" class="sec" data-i18n="optClearJobs"></button>
+      <button id="reset" class="danger" data-i18n="optReset"></button>
+    </div>
+  </section>
+
+  <section>
+    <h2 data-i18n="secAbout"></h2>
+    <p>Stream Grabber <b id="ver"></b> — <span data-i18n="aboutText"></span> <a id="repo" hidden target="_blank" rel="noopener">GitHub</a></p>
+    <p class="hint" data-i18n="aboutLegal"></p>
+  </section>
+</main>
+<div id="toast" data-i18n="saved"></div>
+<script src="lib.js"></script>
+<script src="i18n.js"></script>
+<script src="fs.js"></script>
+<script src="options.js"></script>
+</body></html>

@@ -1,0 +1,5 @@
+{
+  "extName": { "message": "Stream Grabber" },
+  "extDesc": { "message": "Detects the video you are actually watching (HLS / MP4) and downloads it. Queue, one folder per series, quality choice, no limits." },
+  "cmdToggle": { "message": "Turn video detection on / off" }
+}
